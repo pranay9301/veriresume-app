@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import { extractTextFromFile, getFileTypeLabel } from './utils/fileParser';
+import { supabase } from './lib/supabaseClient';
 
 function App() {
   const [file, setFile] = useState(null);
@@ -66,6 +67,28 @@ function App() {
 
       if (result.success) {
         setExtractedData(result.data);
+        
+        // Save to Supabase
+        try {
+          const { data, error } = await supabase
+            .from('resumes')
+            .insert([
+              {
+                full_name: result.data.match(/Full Name:\s*(.+)/)?.[1] || '',
+                user_email: result.data.match(/Email Address:\s*(.+)/)?.[1] || '',
+                extracted_data: { rawText: result.data },
+                original_filename: file.name,
+              }
+            ]);
+            
+          if (error) {
+            console.error('Supabase insert error:', error);
+          } else {
+            console.log('Saved to Supabase:', data);
+          }
+        } catch (supabaseError) {
+          console.error('Failed to save to Supabase:', supabaseError);
+        }
       } else {
         setError(result.data || 'Failed to extract data from resume.');
       }
