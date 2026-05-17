@@ -1,0 +1,171 @@
+.App {
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.App-header {
+  background-color: #282c34;
+  padding: 2rem;
+  color: white;
+}
+
+.App-header h1 {
+  margin: 0;
+  font-size: 2.5rem;
+}
+
+.App-header p {
+  margin: 0.5rem 0 0;
+  font-size: 1.1rem;
+  color: #61dafb;
+}
+
+.App-main {
+  flex: 1;
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.upload-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.upload-section h2 {
+  margin-top: 0;
+  color: #282c34;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.file-input-wrapper {
+  margin-bottom: 1.5rem;
+}
+
+.file-input {
+  display: none;
+}
+
+.file-label {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: #f0f0f0;
+  border: 2px dashed #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.file-label:hover {
+  background-color: #e0e0e0;
+  border-color: #999;
+}
+
+.upload-button {
+  background-color: #61dafb;
+  color: #282c34;
+  border: none;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-weight: bold;
+}
+
+.upload-button:hover:not(:disabled) {
+  background-color: #21a9d8;
+}
+
+.upload-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 20px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  margin-top: 1rem;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #61dafb;
+  transition: width 0.3s;
+}
+
+.error-section {
+  background-color: #ffebee;
+  border: 1px solid #ef5350;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.error-section h3 {
+  color: #c62828;
+  margin-top: 0;
+}
+
+.error-section p {
+  color: #c62828;
+  margin: 0;
+}
+
+.result-section {
+  background-color: #e8f5e9;
+  border: 1px solid #66bb6a;
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: left;
+}
+
+.result-section h3 {
+  color: #2e7d32;
+  margin-top: 0;
+}
+
+.extracted-content {
+  background-color: white;
+  border-radius: 4px;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.extracted-content pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.App-footer {
+  background-color: #282c34;
+  color: white;
+  padding: 1rem;
+  margin-top: auto;
+}
+
+.App-footer p {
+  margin: 0;
+  font-size: 0.9rem;
+}
