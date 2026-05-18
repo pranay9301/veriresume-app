@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
-import { extractTextFromFile, getFileTypeLabel } from './utils/fileParser';
+import { getFileTypeLabel } from './utils/fileParser';
 import { supabase } from './lib/supabaseClient';
 
 function App() {

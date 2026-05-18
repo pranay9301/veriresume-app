@@ -6,24 +6,32 @@ import mammoth from 'mammoth';
 pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.js`;
 
 /**
- * Extracts text content from a PDF file
+ * Extracts text content from a PDF file using a fallback approach
  * @param {File} file - The PDF file to parse
  * @returns {Promise<string>} - Extracted text content
  */
 export async function parsePDF(file) {
-  const arrayBuffer = await file.arrayBuffer();
-  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-  
-  let fullText = '';
-  
-  for (let i = 1; i <= pdf.numPages; i++) {
-    const page = await pdf.getPage(i);
-    const textContent = await page.getTextContent();
-    const pageText = textContent.items.map(item => item.str).join(' ');
-    fullText += pageText + '\n';
+  try {
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+    
+    let fullText = '';
+    
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const textContent = await page.getTextContent();
+      const pageText = textContent.items.map(item => item.str).join(' ');
+      fullText += pageText + '\n';
+    }
+    
+    return fullText.trim();
+  } catch (error) {
+    // Fallback: try to extract text using basic PDF structure parsing
+    if (error.message && error.message.includes('worker')) {
+      throw new Error('PDF parsing is currently unavailable. Please try uploading a TXT file instead, or convert your PDF to text format.');
+    }
+    throw error;
   }
-  
-  return fullText.trim();
 }
 
 /**

@@ -1,10 +1,13 @@
+import pdfParse from 'pdf-parse';
+import mammoth from 'mammoth';
+
 export default async function handler(req, res) {
     // Only allow POST requests
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    const { resumeText } = req.body;
+    const { resumeText, fileBuffer, fileType } = req.body;
     const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
     // Validate API key exists
@@ -15,8 +18,31 @@ export default async function handler(req, res) {
         });
     }
 
+    let textToProcess = resumeText;
+
+    // If fileBuffer is provided, parse it server-side
+    if (fileBuffer && fileType) {
+        try {
+            const buffer = Buffer.from(fileBuffer, 'base64');
+            
+            if (fileType === 'pdf') {
+                const pdfData = await pdfParse(buffer);
+                textToProcess = pdfData.text;
+            } else if (fileType === 'docx') {
+                const result = await mammoth.extractRawText({ buffer });
+                textToProcess = result.value;
+            }
+        } catch (parseError) {
+            console.error('File parsing error:', parseError);
+            return res.status(400).json({
+                success: false,
+                data: `Error parsing file: ${parseError.message}`
+            });
+        }
+    }
+
     // Validate resume text exists
-    if (!resumeText || resumeText.trim().length === 0) {
+    if (!textToProcess || textToProcess.trim().length === 0) {
         return res.status(400).json({
             success: false,
             data: "Validation Error: No resume text provided."
@@ -52,7 +78,7 @@ export default async function handler(req, res) {
 If any information is not found, indicate "Not found" for that field.
 
 Resume Text:
-${resumeText}`
+${textToProcess}`
                         }]
                     }],
                     safetySettings: [
