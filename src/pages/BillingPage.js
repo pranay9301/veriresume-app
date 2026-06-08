@@ -116,7 +116,7 @@ export default function BillingPage({ user }) {
       </div>
       <div className="plans">
         {plans.map((plan) => (
-          <div key={plan.id} className={`plan ${selected === plan.id ? 'selected' : ''}`}>
+          <div key={plan.id} className="plan">
             <h3>{plan.name}</h3>
             <div>
               {plan.monthly === 0 ? (
@@ -137,7 +137,7 @@ export default function BillingPage({ user }) {
             </ul>
             <button
               onClick={() => subscribe(plan.id === 'free' ? 'free' : (annual ? `${plan.id}_yearly` : plan.id))}
-              disabled={loading || selected !== plan.id}
+              disabled={loading}
             >
               {plan.id === 'free' ? 'Downgrade to Free' : 'Upgrade'}
             </button>
