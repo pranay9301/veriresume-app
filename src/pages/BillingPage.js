@@ -48,7 +48,6 @@ const plans = [
 
 export default function BillingPage({ user }) {
   const [annual, setAnnual] = useState(false);
-  const [selected, setSelected] = useState('pro');
   const [loading, setLoading] = useState(false);
 
   const subscribe = async (plan) => {
